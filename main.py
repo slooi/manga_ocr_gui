@@ -14,6 +14,17 @@ FOLDER_NAME = "captures"
 # #################################
 # CLASSES
 # #################################
+class KeyboardHandler():
+	# Handles the storage, updating and listening of keyboard inputs
+	def __init__(self) -> None:
+		super().__init__()
+		self.keys_down = {}
+	
+	
+	# This function runs whenever a keyboard input had been updated
+	def update():
+		pass
+
 class SelectionAreaHandler():
 	# This class handles the selection of an area
 	def __init__(self,callback=None) -> None:

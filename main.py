@@ -70,12 +70,13 @@ class SelectionAreaHandler():
 			top = self.mouse_down["y"] if self.mouse_down["y"] < self.mouse_up["y"] else self.mouse_up["y"]
 			bottom = self.mouse_up["y"] if self.mouse_down["y"] < self.mouse_up["y"] else self.mouse_down["y"]
 
-			#  Actual update
+			# Actual update
 			self.selection_area["left"] = left
 			self.selection_area["right"] = right
 			self.selection_area["top"] = top
 			self.selection_area["bottom"] = bottom
 
+			# Callback
 			self.callback(self)
 
 	def get_selection_area(self):

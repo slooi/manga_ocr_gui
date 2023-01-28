@@ -2,7 +2,7 @@
 # IMPORTS
 # #################################
 from PIL import ImageGrab # ImageGrab only supported on Windows and macOS
-from pynput import mouse
+from pynput import mouse, keyboard
 import os 
 import time
 
@@ -19,8 +19,17 @@ class KeyboardHandler():
 	def __init__(self) -> None:
 		super().__init__()
 		self.keys_down = {}
+
+	def setup_listener(self):
+		listener = keyboard.Listener(on_press=self._on_press,on_release=self._on_release)
+		listener.start()
 	
-	
+	def _on_press(self):
+		pass
+
+	def _on_release(self):
+		pass
+
 	# This function runs whenever a keyboard input had been updated
 	def update():
 		pass

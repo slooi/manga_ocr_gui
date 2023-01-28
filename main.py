@@ -85,14 +85,14 @@ class SelectionAreaHandler():
 # FUNCTIONS
 # #################################
 def testingA(selection_area_handler:SelectionAreaHandler):
-	# # Capture the selected area of the screen
-	# print("mouse_left_down_position.x,",mouse_left_down_position["x"],)
+	# Get selected area
 	selection_area = selection_area_handler.get_selection_area()
 	print("selection_area",selection_area)
 
+	# Capture the selected area of the screen
 	im = ImageGrab.grab(bbox=(selection_area["left"], selection_area["top"], selection_area["right"], selection_area["bottom"]))
 
-	# # # Save the image to a file
+	# Save the image to a file
 	im.save("captures/screenshot.png")
 	print("took screenshot")
 

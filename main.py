@@ -1,17 +1,19 @@
+# #################################
+# IMPORTS
+# #################################
 from PIL import ImageGrab
-import os 
-
-FOLDER_NAME = "captures"
-
-# # Select the area of the screen to capture
-# left = 100
-# top = 100
-# right = 200
-# bottom = 200
 from pynput import mouse
-# import pyautogui
+import os 
 import time
 
+# #################################
+# CONSTANTS
+# #################################
+FOLDER_NAME = "captures"
+
+# #################################
+# CLASSES
+# #################################
 class SelectionAreaHandler():
 	# This class handles the selection of an area
 	def __init__(self,callback=None) -> None:
@@ -79,8 +81,9 @@ class SelectionAreaHandler():
 	def get_selection_area(self):
 		return self.selection_area
 
-
-
+# #################################
+# FUNCTIONS
+# #################################
 def testingA(selection_area_handler:SelectionAreaHandler):
 	# # Capture the selected area of the screen
 	# print("mouse_left_down_position.x,",mouse_left_down_position["x"],)
@@ -94,12 +97,16 @@ def testingA(selection_area_handler:SelectionAreaHandler):
 	print("took screenshot")
 
 
+
+# #################################
+# MAIN CODE
+# #################################
 counter=0
 
 def setup():
 	global counter
 
-	# Download manga_ocr model
+	# Download manga_ocr model     !@#!@#!@#
 
 	# Create captures folder if it doesn't already exist
 	if not os.path.exists(FOLDER_NAME):

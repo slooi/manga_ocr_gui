@@ -176,11 +176,17 @@ class ScreenCapturer():
 		self.capture_mode_on = is_on
 
 
-class SaveImageStrategy():
-	def strategy(self,im):
-		# Save the image to a file
-		im.save("captures/screenshot.png")
-		print("took screenshot")
+	class SaveImageStrategy():
+		def strategy(self,im):
+			# Save the image to a file
+			im.save("captures/screenshot.png")
+			print("took screenshot")
+			
+	class MangaOCRStrategy():
+		def strategy(self,im):
+			# Save the image to a file
+			im.save("captures/screenshot.png")
+			print("took screenshot")
 # #################################
 # FUNCTIONS
 # #################################
@@ -212,7 +218,7 @@ def setup():
 	# mocr
 	# mocr = MangaOcr()
 	# Screen Capturer
-	screen_capturer = ScreenCapturer(SaveImageStrategy())
+	screen_capturer = ScreenCapturer(ScreenCapturer.SaveImageStrategy())
 
 	# Main Loop
 	while True:

@@ -175,7 +175,10 @@ class ScreenCapturer():
 	def set_capture_mode(self,is_on):
 		self.capture_mode_on = is_on
 
-
+	
+	# #################################
+	# STRATEGIES
+	# #################################
 	class SaveImageStrategy():
 		def strategy(self,im):
 			# Save the image to a file
@@ -187,6 +190,8 @@ class ScreenCapturer():
 			# Save the image to a file
 			im.save("captures/screenshot.png")
 			print("took screenshot")
+			
+			
 # #################################
 # FUNCTIONS
 # #################################

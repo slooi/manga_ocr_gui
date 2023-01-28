@@ -143,18 +143,19 @@ class ScreenCapturer():
 		self.keyboard_handler = KeyboardHandler(self.handleKeyboardChange)
 
 	def capture_selection(self,selection_area_handler:SelectionAreaHandler):
-		# Get selected area
-		selection_area = selection_area_handler.get_selection_area()
-		print("selection_area",selection_area)
+		if self.capture_mode_on:
+			# Get selected area
+			selection_area = selection_area_handler.get_selection_area()
+			print("selection_area",selection_area)
 
-		# Capture the selected area of the screen
-		im = ImageGrab.grab(bbox=(selection_area["left"], selection_area["top"], selection_area["right"], selection_area["bottom"]))
+			# Capture the selected area of the screen
+			im = ImageGrab.grab(bbox=(selection_area["left"], selection_area["top"], selection_area["right"], selection_area["bottom"]))
 
-		# Save the image to a file
-		im.save("captures/screenshot.png")
-		print("took screenshot")
+			# Save the image to a file
+			im.save("captures/screenshot.png")
+			print("took screenshot")
 
-		self.set_capture_mode(self.capture_mode_on)
+			self.set_capture_mode(self.capture_mode_on)
 				
 
 	def handleKeyboardChange(self,keyboard_handler:KeyboardHandler):

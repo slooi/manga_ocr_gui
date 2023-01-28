@@ -99,7 +99,7 @@ class SelectionAreaHandler():
 # #################################
 # FUNCTIONS
 # #################################
-def testingA(selection_area_handler:SelectionAreaHandler):
+def capture_selection(selection_area_handler:SelectionAreaHandler):
 	# Get selected area
 	selection_area = selection_area_handler.get_selection_area()
 	print("selection_area",selection_area)
@@ -128,7 +128,7 @@ def setup():
 		os.mkdir(FOLDER_NAME)
 	
 	# capture handler setup
-	selection_area_handler = SelectionAreaHandler(testingA)
+	selection_area_handler = SelectionAreaHandler(capture_selection)
 
 	# Main Loop
 	while True:

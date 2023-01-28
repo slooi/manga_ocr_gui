@@ -186,10 +186,15 @@ class ScreenCapturer():
 			print("took screenshot")
 			
 	class MangaOCRStrategy():
+		def __init__(self,mocr) -> None:
+			self.mocr = mocr
+			
 		def strategy(self,im):
-			# Save the image to a file
-			im.save("captures/screenshot.png")
-			print("took screenshot")
+			# Pass image to ocr
+			text = self.mocr(im)
+			print("converted image to text!")
+			print(f"Text: {text}")
+
 			
 			
 # #################################
@@ -202,10 +207,7 @@ class ScreenCapturer():
 # #################################
 # MAIN CODE
 # #################################
-counter=0
-
 def setup():
-	global counter
 
 	# #################################
 	# DEPENDENCIES
@@ -221,9 +223,11 @@ def setup():
 	# MAIN VARIABLES
 	# #################################
 	# mocr
-	# mocr = MangaOcr()
+	mocr = MangaOcr()
 	# Screen Capturer
-	screen_capturer = ScreenCapturer(ScreenCapturer.SaveImageStrategy())
+	screen_capturer = ScreenCapturer(ScreenCapturer.MangaOCRStrategy(mocr))
+
+	counter = 0
 
 	# Main Loop
 	while True:

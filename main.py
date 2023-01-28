@@ -1,7 +1,7 @@
 # #################################
 # IMPORTS
 # #################################
-from PIL import ImageGrab
+from PIL import ImageGrab # ImageGrab only supported on Windows and macOS
 from pynput import mouse
 import os 
 import time
@@ -76,8 +76,22 @@ class SelectionAreaHandler():
 			self.selection_area["top"] = top
 			self.selection_area["bottom"] = bottom
 
-			# Callback
-			self.callback(self)
+			# Callback precursor
+			self.callback_precursor()
+
+	# Does validation/checks before running callback
+	def callback_precursor(self):
+		# Check if selection area meets minimum requirements
+		width_is_less_than_required = self.selection_area["right"] - self.selection_area["left"] < 10
+		height_is_less_than_required = self.selection_area["bottom"] - self.selection_area["top"] < 10
+
+		if width_is_less_than_required: return
+		if height_is_less_than_required: return
+
+		# Callback
+		self.callback(self)
+		
+
 
 	def get_selection_area(self):
 		return self.selection_area

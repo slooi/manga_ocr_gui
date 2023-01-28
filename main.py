@@ -6,6 +6,7 @@ from pynput import mouse, keyboard
 import os 
 import time
 from manga_ocr import MangaOcr
+import pyperclip
 
 # #################################
 # CONSTANTS
@@ -190,9 +191,13 @@ class ScreenCapturer():
 			self.mocr = mocr
 			
 		def strategy(self,im):
+			old_time = time.time()
 			# Pass image to ocr
 			text = self.mocr(im)
-			print("converted image to text!")
+			
+			pyperclip.copy(text)
+			pyperclip.paste()
+			print(f"OCR compute time: {time.time()-old_time}")
 			print(f"Text: {text}")
 
 			
@@ -235,6 +240,5 @@ def setup():
 		# counter = counter + 1
 		if counter > 3:
 			break
-
 
 setup()

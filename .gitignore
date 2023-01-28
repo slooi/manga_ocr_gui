@@ -1,0 +1,10 @@
+# Ignore everything
+*
+
+# Don't ignore these files
+!.gitignore
+!main.py
+!README.md
+
+# ...even if they are in subdirectories
+!*/

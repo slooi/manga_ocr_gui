@@ -5,6 +5,7 @@ from PIL import ImageGrab # ImageGrab only supported on Windows and macOS
 from pynput import mouse, keyboard
 import os 
 import time
+from manga_ocr import MangaOcr
 
 # #################################
 # CONSTANTS
@@ -35,7 +36,7 @@ class KeyboardHandler():
 
 	def _on_event(self,str_key:str,is_press:bool):
 		self.keys_down[str_key] = is_press
-		print("self.keys_down",self.keys_down)
+		# print("self.keys_down",self.keys_down)
 		self.update()
 
 	# This function runs whenever a keyboard input had been updated
@@ -131,14 +132,16 @@ class SelectionAreaHandler():
 
 
 class ScreenCapturer():
-	# This class handles the process of capturing and saving of areas of the screen 
-	def __init__(self) -> None:
+	# This class handles the process of capturing the screen 
+	def __init__(self,post_capture_selection_strategy) -> None:
 
 		# Members
 		self.capture_mode_on = False
 
+		# Strategy/Callback
+		self.post_capture_selection_strategy = post_capture_selection_strategy
+
 		# Setup Handlers
-		print("self.capture_selection",self.capture_selection)
 		self.selection_area_handler = SelectionAreaHandler(self.capture_selection)
 		self.keyboard_handler = KeyboardHandler(self.handleKeyboardChange)
 
@@ -146,16 +149,19 @@ class ScreenCapturer():
 		if self.capture_mode_on:
 			# Get selected area
 			selection_area = selection_area_handler.get_selection_area()
-			print("selection_area",selection_area)
+			# print("selection_area",selection_area)
 
 			# Capture the selected area of the screen
 			im = ImageGrab.grab(bbox=(selection_area["left"], selection_area["top"], selection_area["right"], selection_area["bottom"]))
 
-			# Save the image to a file
-			im.save("captures/screenshot.png")
-			print("took screenshot")
+			self.post_capture_selection(im)
 
-			self.set_capture_mode(self.capture_mode_on)
+	def post_capture_selection(self,im):
+		# Use strategy
+		self.post_capture_selection_strategy.strategy(im)
+
+		# Turn off capture mode
+		self.set_capture_mode(False)
 				
 
 	def handleKeyboardChange(self,keyboard_handler:KeyboardHandler):
@@ -168,6 +174,13 @@ class ScreenCapturer():
 
 	def set_capture_mode(self,is_on):
 		self.capture_mode_on = is_on
+
+
+class SaveImageStrategy():
+	def strategy(self,im):
+		# Save the image to a file
+		im.save("captures/screenshot.png")
+		print("took screenshot")
 # #################################
 # FUNCTIONS
 # #################################
@@ -196,8 +209,10 @@ def setup():
 	# #################################
 	# MAIN VARIABLES
 	# #################################
+	# mocr
+	# mocr = MangaOcr()
 	# Screen Capturer
-	screen_capturer = ScreenCapturer()
+	screen_capturer = ScreenCapturer(SaveImageStrategy())
 
 	# Main Loop
 	while True:

@@ -21,7 +21,8 @@ class KeyboardHandler():
 	def __init__(self,callback) -> None:
 		super().__init__()
 		self.keys_down = {}
-		self.possible_str_keys = ['i', '}', 'd', 'c', 'R', '|', 'O', 'U', 'Key.alt_l', 't', ',', 'Key.f8', 'Key.right', 'T', 'b', 'm', 'Key.shift_r', 'Key.page_down', 'Key.backspace', 'l', 'Key.alt_gr', 'X', '<96>', '~', 'Key.f7', 'Key.cmd', 'W', '<255>', '^', '2', '.', 'Q', ']', '-', '6', 'H', 'Key.f1', 'y', 'D', '<105>', 'J', '`', 'P', '""', 'Key.f10', '<97>', ':', '\\x01', '1', 'K', '0', 'Key.media_play_pause', 'Key.media_volume_down', '=', 'p', 'Key.f11', 'r', 'Key.media_volume_up', 'a', '4', 'Key.tab', 'Key.page_up', '{', 'B', 'Key.media_next', 'Key.caps_lock', 'w', '/', 'Key.down', '3', 'Key.f4', 'Key.num_lock', '8', '5', '[', 'Key.f9', '9', 'Key.f6', 'N', '%', 'E', 'z', 'Key.enter', 'Key.ctrl_r', '7', 'u', 'G', '(', '*', 'Key.f3', '<12>', 'n', 'Key.space', 'g', 'q', 'Key.ctrl_l', 'h', '?', '!', '<102>', 'o', 'I', 'e', 'C', '<', '$', '<98>', 'Key.esc', ')', 'f', 'L', 'Key.home', '>', '#', '<110>', '\\x03', '<99>', 'v', 'Key.left', '@', 'M', 'Key.print_screen', ';', 'Key.insert', 'x', '+', 'Key.delete', 'Key.media_volume_mute', 'Key.shift', 'F', 'j', '<103>', '_', 'S', 's', '"', 'Key.media_previous', 'Z', 'Key.up', 'A', '<104>', 'V', '&', '<101>', '\\\\', 'Key.end', 'Key.f12', 'k', '<100>', 'Key.f2', 'Y', 'Key.f5']
+		self.possible_str_keys = ['<100>', '1', '\\\\', 'key.cmd', '^', 'key.media_volume_mute', 't', 'key.media_previous', 'key.media_volume_down', 'key.f1', '7', '+', '{', '[', 'key.print_screen', 'd', '(', '"', '<110>', 'key.right', 'key.f10', '<96>', 'z', 'key.f11', 'key.f5', '>', '.', 'key.ctrl_r', '<102>', '3', 'key.f6', 'key.left', '<97>', 'j', '<101>', '|', '`', '""', 'v', '<98>', 'key.alt_gr', 'key.esc', 'key.f8', '_', '&', 'a', 'c', '4', 'h', '\\x03', 'key.caps_lock', 'key.ctrl_l', '$', '<104>', 'key.page_up', 'key.alt_l', 'q', 'key.f4', '2', 'key.media_volume_up', 'g', 's', '<12>', 'e', 'key.delete', 'key.media_next', 'i', '?', '}', '<105>', 'key.shift', 'key.page_down', ',', ')', '!', 'key.f2', 'x', 'key.tab', '<255>', '5', '-', 'b', 'key.media_play_pause', '9', '6', 'l', 'key.shift_r', ':', 'key.down', 'key.home', '=', '~', 'y', '0', '\\x01', 'key.f9', 'key.f3', '%', 'f', 'key.up', 'k', 'key.space', 'p', 'w', '<103>', 'key.f7', '*', '<99>', 'o', '#', 'key.backspace', 'key.f12', '@', 
+'key.end', '/', '8', '<', 'key.enter', ']', 'n', 'key.insert', 'key.num_lock', 'u', 'r', 'm', ';']
 		self.callback = callback
 		self.setup_listener()
 
@@ -30,10 +31,10 @@ class KeyboardHandler():
 		listener.start()
 	
 	def _on_press(self,key):
-		self._on_event(str(key).replace("'",""),True)
+		self._on_event(str(key).replace("'","").lower(),True)
 
 	def _on_release(self,key):
-		self._on_event(str(key).replace("'",""),False)
+		self._on_event(str(key).replace("'","").lower(),False)
 
 	def _on_event(self,str_key:str,is_press:bool):
 		self.keys_down[str_key] = is_press
@@ -46,7 +47,7 @@ class KeyboardHandler():
 
 	def get_key(self,key):
 		if key not in self.possible_str_keys:
-			raise Exception("ERROR: KeyboardHandler does not support such key `{key}`")
+			raise Exception(f"ERROR: KeyboardHandler does not support such key `{key}`")
 		return self.keys_down[key] if key in self.keys_down else False
 
 class SelectionAreaHandler():
@@ -166,9 +167,12 @@ class ScreenCapturer():
 				
 
 	def handleKeyboardChange(self,keyboard_handler:KeyboardHandler):
-		key_grave_accent_down = keyboard_handler.get_key("`")
-		key_alt_l_down = keyboard_handler.get_key("Key.alt_l")
-		if key_alt_l_down and key_grave_accent_down:
+		key_q_down = keyboard_handler.get_key("q")
+		key_alt_l_down = keyboard_handler.get_key("key.alt_l")
+		key_shift_down = keyboard_handler.get_key("key.shift")
+		
+		print("keyboard_handler.keys_down",keyboard_handler.keys_down)
+		if key_alt_l_down and key_shift_down and key_q_down:
 			self.set_capture_mode(not self.capture_mode_on)
 			print("self.capture_mode_on",self.capture_mode_on)
 			
@@ -236,7 +240,7 @@ def setup():
 
 	# Main Loop
 	while True:
-		time.sleep(1)
+		# time.sleep(1)
 		# counter = counter + 1
 		if counter > 3:
 			break

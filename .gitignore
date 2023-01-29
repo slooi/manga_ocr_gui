@@ -14,3 +14,5 @@
 /testings
 /captures
 notes.md
+
+__pycache__

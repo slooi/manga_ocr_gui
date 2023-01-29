@@ -7,7 +7,7 @@ import os
 import time
 from manga_ocr import MangaOcr
 import pyperclip
-
+import gui.screen_overlay as screen_overlay
 # #################################
 # CONSTANTS
 # #################################
@@ -171,7 +171,7 @@ class ScreenCapturer():
 		key_alt_l_down = keyboard_handler.get_key("key.alt_l")
 		key_shift_down = keyboard_handler.get_key("key.shift")
 		
-		print("keyboard_handler.keys_down",keyboard_handler.keys_down)
+		# print("keyboard_handler.keys_down",keyboard_handler.keys_down)
 		if key_alt_l_down and key_shift_down and key_q_down:
 			self.set_capture_mode(not self.capture_mode_on)
 			print("self.capture_mode_on",self.capture_mode_on)
@@ -191,9 +191,10 @@ class ScreenCapturer():
 			print("took screenshot")
 			
 	class MangaOCRStrategy():
-		def __init__(self,mocr) -> None:
-			self.mocr = mocr
-			
+		def __init__(self) -> None:
+			# mocr
+			self.mocr = MangaOcr()
+
 		def strategy(self,im):
 			old_time = time.time()
 			# Pass image to ocr
@@ -231,12 +232,11 @@ def setup():
 	# #################################
 	# MAIN VARIABLES
 	# #################################
-	# mocr
-	mocr = MangaOcr()
 	# Screen Capturer
-	screen_capturer = ScreenCapturer(ScreenCapturer.MangaOCRStrategy(mocr))
+	# screen_capturer = ScreenCapturer(ScreenCapturer.MangaOCRStrategy(mocr))
+	screen_capturer = ScreenCapturer(ScreenCapturer.SaveImageStrategy())
 
-	counter = 0
+	counter = 0	
 
 	# Main Loop
 	while True:

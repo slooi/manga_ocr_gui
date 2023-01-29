@@ -76,7 +76,7 @@ def get_geometry(app):
 	
 
 
-a = ScreenOverlay()
+# a = ScreenOverlay()
 
 
 """ 

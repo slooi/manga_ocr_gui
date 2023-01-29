@@ -11,7 +11,6 @@ class ScreenOverlay(QWidget):
 	# This is a GUI which handles the overlay of the screen. 
 	# It renders the desktop's screen onto this GUI widget so you can click select text without highlighting the html
 	def __init__(self) -> None:
-		print("start",time.time())
 		# Create Application and View
 		self.app = QApplication([])
 		self.view = QGraphicsView()
@@ -27,7 +26,6 @@ class ScreenOverlay(QWidget):
 		self.view.showFullScreen()
 		# Show Main Window
 		self.view.show()
-		print("end",time.time())
 
 		QTimer.singleShot(2000,self.aaa)
 
@@ -62,7 +60,7 @@ class ScreenOverlay(QWidget):
 		pass
 
 
-	def aaa(self):
+	def exit(self):
 		print("EXITING")
 		self.app.exit()
 
@@ -76,7 +74,7 @@ def get_geometry(app):
 	return (left,top,right,bottom)
 	
 
-print("a",time.time())
+
 a = ScreenOverlay()
 
 

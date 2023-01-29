@@ -11,33 +11,33 @@ class ScreenOverlay(QWidget):
 	# This is a GUI which handles the overlay of the screen. 
 	# It renders the desktop's screen onto this GUI widget so you can click select text without highlighting the html
 	def __init__(self) -> None:
-		# Create Application and View
+		# Create Application
 		self.app = QApplication([])
+
+		# Create View & View Setup
 		self.view = QGraphicsView()
-		self.view.setWindowFlags(QtCore.Qt.Tool)
+		# self.view.setWindowFlags(QtCore.Qt.Tool)
 		self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-		print("self.app.primaryScreen().availableGeometry()",self.app.primaryScreen().availableGeometry())
+		# Create Scene
+		self.scene = QGraphicsScene()
+		
+		# View the scene
+		self.view.setScene(self.scene)
 
-		# Setup scene
-		scene = self.setup_scene()
-		self.view.setScene(scene)
-		self.view.showFullScreen()
-		# Show Main Window
-		self.view.show()
+		# TEMPORARY
+		# QTimer.singleShot(2000,self.exit)
 
-		QTimer.singleShot(2000,self.aaa)
+		
+		self.render_scene()
 
 		# Execute Eventloop
 		self.app.exec()
 
-	def setup_scene(self):
-		# ###################
-		# Create Scene
-		scene = QGraphicsScene()
+	def render_scene(self):
 
-		# Create QImage to create QPixmap
+		# Get image from screen
 		im = ImageGrab.grab(bbox=get_geometry(app=self.app))
 		# im.save("testings/aaaaaaa.png")				
 		qim = ImageQt(im)
@@ -46,9 +46,9 @@ class ScreenOverlay(QWidget):
 		# image = QImage("captures/screenshot.png") # For QPixMap in the future
 		# pixmap = QPixmap.fromImage(image)
 
-		graphicPixmap = scene.addPixmap(pixmap)
+		self.scene.addPixmap(pixmap)
 
-		return scene
+		self.show()
 		# ###################
 
 	def get_image(self):
@@ -56,8 +56,9 @@ class ScreenOverlay(QWidget):
 		# im = ImageGrab.grab(bbox=(selection_area["left"], selection_area["top"], selection_area["right"], selection_area["bottom"]))
 
 	def show(self):
-		# Shows a window
-		pass
+		# Show Main Window
+		# self.view.show()
+		self.view.showFullScreen()
 
 
 	def exit(self):
